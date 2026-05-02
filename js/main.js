@@ -15,13 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
     navToggle.addEventListener('click', () => {
       navToggle.classList.toggle('open');
       navMenu.classList.toggle('open');
-      document.body.style.overflow = navMenu.classList.contains('open') ? 'hidden' : '';
+      const isOpen = navMenu.classList.contains('open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
     navMenu.querySelectorAll('.nav-link').forEach(link => {
       link.addEventListener('click', () => {
         navToggle.classList.remove('open');
         navMenu.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
       });
     });
@@ -110,13 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const original = btn.textContent;
       btn.textContent = 'Message Sent';
       btn.disabled = true;
-      btn.style.background = '#2a7a2a';
-      btn.style.borderColor = '#2a7a2a';
+      btn.classList.add('js-submitted');
       setTimeout(() => {
         btn.textContent = original;
         btn.disabled = false;
-        btn.style.background = '';
-        btn.style.borderColor = '';
+        btn.classList.remove('js-submitted');
         contactForm.reset();
       }, 3500);
     });

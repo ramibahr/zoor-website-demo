@@ -147,12 +147,15 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
 }
 
 .nav-logo {
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  color: var(--gold);
+  display: flex;
+  align-items: center;
   transition: opacity 0.2s;
+}
+
+.nav-logo img {
+  height: 38px;
+  width: auto;
+  display: block;
 }
 
 .nav-logo:hover { opacity: 0.85; }

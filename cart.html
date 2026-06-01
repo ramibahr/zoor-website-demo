@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ZOOR – Strength in Every Drop | Premium Beard Oil</title>
-  <meta name="description" content="Crafted from natural oils to nourish, soften and strengthen your beard without harsh chemicals. ZOOR – Strength in Every Drop." />
+  <title>Basket – ZOOR</title>
+  <meta name="description" content="Your ZOOR basket. Review your items and proceed to checkout." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
@@ -36,89 +36,24 @@
 
   <main>
 
-  <!-- HERO -->
-  <section class="hero" aria-label="Hero">
-    <div class="hero-bg" style="background-image: url('hero%20pic%20zoor.jpeg'); background-position: center center;"></div>
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="hero-eyebrow">Premium Beard Care</p>
-      <h1 class="hero-title">ZOOR</h1>
-      <div class="divider">
+  <!-- PAGE HEADER -->
+  <div style="padding-top: calc(var(--nav-h) + 48px); padding-bottom: 0;">
+    <div class="container">
+      <p style="font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 16px;">Your Basket</p>
+      <h1 style="font-size: clamp(2.5rem, 6vw, 4rem);">Basket</h1>
+      <div class="divider" style="margin: 20px 0 0;">
         <span class="divider-line"></span>
         <span class="divider-diamond"></span>
         <span class="divider-line"></span>
       </div>
-      <p class="hero-slogan">Strength in Every Drop</p>
-      <p class="hero-desc">Crafted from natural oils to nourish, soften and strengthen your beard without harsh chemicals.</p>
-      <a href="shop.html" class="btn btn-primary">Shop Now</a>
     </div>
-  </section>
+  </div>
 
-  <!-- BRAND INTRO -->
-  <section class="brand-intro section">
+  <!-- CART CONTENT -->
+  <section class="section">
     <div class="container">
-      <div class="brand-intro-inner fade-up">
-        <span class="eyebrow">Our Story</span>
-        <p class="brand-statement">Zoor means strength. The brand was created with the idea that beard care should be simple, natural and effective. Every bottle is a commitment to ingredients you can trust, rituals that actually work, and a beard that commands respect.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FEATURED PRODUCTS -->
-  <section class="featured-products section">
-    <div class="container">
-      <div class="section-header fade-up">
-        <h2>Our Signature Formula</h2>
-        <p style="margin-top: 20px;">One product. Perfected. Built to nourish beard hair from root to tip while conditioning the skin beneath.</p>
-      </div>
-      <div class="products-grid">
-        <div class="product-card fade-up">
-          <div class="product-card-img">
-            <img src="product%20zoor.jpeg" alt="ZOOR Beard Oil – 30ml" loading="lazy" width="1024" height="768" />
-          </div>
-          <div class="product-card-body">
-            <h3>ZOOR Beard Oil</h3>
-            <span class="product-size">30ml</span>
-            <div class="price-placeholder">Price to be updated</div>
-            <button type="button" class="btn btn-primary js-add-bag" data-product-id="zoor-beard-oil" data-product-name="ZOOR Beard Oil" data-product-volume="30ml" data-product-image="product%20zoor.jpeg" style="display:block; text-align:center; width:100%;">Add to Bag</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY ZOOR -->
-  <section class="why-zoor section">
-    <div class="container">
-      <div class="why-zoor-grid">
-        <div class="why-zoor-feature fade-up">
-          <span class="why-num" aria-hidden="true">01</span>
-          <h3>Natural<br>Oils</h3>
-          <p>Almond, jojoba, castor and coconut-derived. Nothing synthetic, nothing unnecessary.</p>
-        </div>
-        <div class="why-zoor-secondary">
-          <div class="why-zoor-item fade-up">
-            <span class="why-num" aria-hidden="true">02</span>
-            <div class="why-item-body">
-              <h4>Lightweight Feel</h4>
-              <p>Absorbs quickly without grease, leaving your beard soft and conditioned all day.</p>
-            </div>
-          </div>
-          <div class="why-zoor-item fade-up">
-            <span class="why-num" aria-hidden="true">03</span>
-            <div class="why-item-body">
-              <h4>UK Crafted</h4>
-              <p>Formulated and bottled in the United Kingdom to the highest standards.</p>
-            </div>
-          </div>
-          <div class="why-zoor-item fade-up">
-            <span class="why-num" aria-hidden="true">04</span>
-            <div class="why-item-body">
-              <h4>No Harsh Chemicals</h4>
-              <p>Free from parabens, sulphates and artificial fragrances. Just pure, purposeful ingredients.</p>
-            </div>
-          </div>
-        </div>
+      <div id="cartContent">
+        <p style="color: var(--cream-muted); text-align: center; padding: 40px 0;">Loading your basket...</p>
       </div>
     </div>
   </section>
@@ -180,15 +115,6 @@
       <button class="cookie-decline" id="cookieDecline">Decline</button>
     </div>
   </div>
-
-  <!-- TOAST -->
-  <div class="toast" id="toast" role="status" aria-live="polite">
-    <span class="toast-dot"></span>
-    <p>Added to your bag</p>
-  </div>
-
-  <!-- FLOATING SHOP BUTTON -->
-  <a href="shop.html" class="floating-shop-btn" aria-label="Shop Now">Shop Now</a>
 
   <script src="js/main.js"></script>
 </body>

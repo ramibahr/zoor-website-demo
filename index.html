@@ -9,6 +9,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <script>
+    (function () {
+      try {
+        var c = JSON.parse(localStorage.getItem('zoor_cart') || '[]');
+        var n = c.reduce(function (s, i) { return s + (i.quantity || 1); }, 0);
+        if (n > 0) {
+          document.addEventListener('DOMContentLoaded', function () {
+            var b = document.getElementById('cartBadge');
+            if (b) { b.textContent = n; b.removeAttribute('hidden'); }
+          });
+        }
+      } catch (e) {}
+    }());
+  </script>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -61,6 +75,63 @@
       <div class="brand-intro-inner fade-up">
         <span class="eyebrow">Our Story</span>
         <p class="brand-statement">Zoor means strength. The brand was created with the idea that beard care should be simple, natural and effective. Every bottle is a commitment to ingredients you can trust, rituals that actually work, and a beard that commands respect.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- INGREDIENTS -->
+  <section class="ingredients-section section">
+    <div class="container">
+      <div class="section-header fade-up">
+        <p style="font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 16px;">The Formula</p>
+        <h2>What's Inside</h2>
+        <div class="divider" style="margin: 16px auto 0;">
+          <span class="divider-line"></span>
+          <span class="divider-diamond"></span>
+          <span class="divider-line"></span>
+        </div>
+      </div>
+      <div class="ingredients-grid">
+        <div class="ingredient-card fade-up">
+          <div class="ingredient-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+          </div>
+          <p class="ingredient-name">Jojoba Oil</p>
+          <p class="ingredient-desc">Deeply moisturises without clogging pores</p>
+        </div>
+        <div class="ingredient-card fade-up">
+          <div class="ingredient-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M17 8C8 10 5.9 16.17 3.82 19.34a1 1 0 0 0 1.38 1.38C8.56 18.7 14.7 16.6 17 8z"/>
+              <path d="M3 21l4.5-4.5"/>
+            </svg>
+          </div>
+          <p class="ingredient-name">Sweet Almond Oil</p>
+          <p class="ingredient-desc">Softens and smooths beard hair</p>
+        </div>
+        <div class="ingredient-card fade-up">
+          <div class="ingredient-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22V12"/>
+              <path d="M12 12C10 10 7 9 5 6c4-1 9 2 9 8"/>
+              <path d="M12 16C14 14 17 13 19 10c-4-1-9 2-9 8"/>
+            </svg>
+          </div>
+          <p class="ingredient-name">Castor Oil</p>
+          <p class="ingredient-desc">Strengthens and promotes healthy growth</p>
+        </div>
+        <div class="ingredient-card fade-up">
+          <div class="ingredient-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+            </svg>
+          </div>
+          <p class="ingredient-name">Coconut-Derived Oil</p>
+          <p class="ingredient-desc">Nourishes the skin beneath your beard</p>
+        </div>
       </div>
     </div>
   </section>
@@ -190,6 +261,11 @@
 
   <!-- FLOATING SHOP BUTTON -->
   <a href="shop.html" class="floating-shop-btn" aria-label="Shop Now">Shop Now</a>
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top-btn" id="scrollTop" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
 
   <script src="js/main.js"></script>
 </body>

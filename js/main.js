@@ -14,11 +14,11 @@ const Cart = (() => {
     _badge();
   };
 
-  const add = (product) => {
+  const add = (product, qty = 1) => {
     const items = get();
     const idx = items.findIndex(i => i.id === product.id);
-    if (idx >= 0) items[idx].quantity += 1;
-    else items.push({ ...product, quantity: 1 });
+    if (idx >= 0) items[idx].quantity += qty;
+    else items.push({ ...product, quantity: qty });
     save(items);
   };
 
@@ -60,10 +60,17 @@ document.addEventListener('DOMContentLoaded', () => {
     navToggle.setAttribute('aria-expanded', 'false');
   };
 
+  const scrollTopBtn = document.getElementById('scrollTop');
+
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
     if (navMenu && navMenu.classList.contains('open')) closeNav();
+    if (scrollTopBtn) scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
   }, { passive: true });
+
+  if (scrollTopBtn) {
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
 
   if (navToggle) {
     navToggle.addEventListener('click', () => {
@@ -106,11 +113,36 @@ document.addEventListener('DOMContentLoaded', () => {
     fadeEls.forEach(el => io.observe(el));
   }
 
+  /* ── Qty selector (shop page) ───────────────────────────── */
+  const qtyDec = document.getElementById('qtyDec');
+  const qtyInc = document.getElementById('qtyInc');
+  const qtyVal = document.getElementById('qtyVal');
+
+  if (qtyDec && qtyInc && qtyVal) {
+    const setQtyDisplay = (n) => {
+      qtyVal.textContent = n;
+      qtyVal.setAttribute('aria-label', `Quantity: ${n}`);
+      qtyDec.disabled = n <= 1;
+    };
+
+    qtyDec.addEventListener('click', () => {
+      const current = parseInt(qtyVal.textContent, 10) || 1;
+      setQtyDisplay(Math.max(1, current - 1));
+    });
+    qtyInc.addEventListener('click', () => {
+      const current = parseInt(qtyVal.textContent, 10) || 1;
+      setQtyDisplay(current + 1);
+    });
+  }
+
   /* ── Add to Bag ──────────────────────────────────────────── */
   document.querySelectorAll('.js-add-bag').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       if (btn.classList.contains('btn-confirmed')) return;
+
+      const qtyEl = document.getElementById('qtyVal');
+      const selectedQty = qtyEl ? parseInt(qtyEl.textContent, 10) || 1 : 1;
 
       Cart.add({
         id:     btn.dataset.productId    || 'zoor-beard-oil',
@@ -118,13 +150,18 @@ document.addEventListener('DOMContentLoaded', () => {
         volume: btn.dataset.productVolume || '30ml',
         image:  btn.dataset.productImage || 'product%20zoor.jpeg',
         price:  btn.dataset.productPrice ? parseFloat(btn.dataset.productPrice) : null
-      });
+      }, selectedQty);
 
       const originalHTML = btn.innerHTML;
       btn.innerHTML = `<span class="btn-confirm-inner"><svg class="btn-confirm-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3,10 8,15 17,5"/></svg>Added!</span>`;
       btn.classList.add('btn-confirmed');
 
       flyCartToBadge(btn);
+
+      const qtyResetEl = document.getElementById('qtyVal');
+      const qtyDecEl   = document.getElementById('qtyDec');
+      if (qtyResetEl) { qtyResetEl.textContent = '1'; qtyResetEl.setAttribute('aria-label', 'Quantity: 1'); }
+      if (qtyDecEl)   { qtyDecEl.disabled = true; }
 
       setTimeout(() => {
         btn.innerHTML = originalHTML;

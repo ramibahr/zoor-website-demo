@@ -9,6 +9,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
+  <script>
+    (function () {
+      try {
+        var c = JSON.parse(localStorage.getItem('zoor_cart') || '[]');
+        var n = c.reduce(function (s, i) { return s + (i.quantity || 1); }, 0);
+        if (n > 0) {
+          document.addEventListener('DOMContentLoaded', function () {
+            var b = document.getElementById('cartBadge');
+            if (b) { b.textContent = n; b.removeAttribute('hidden'); }
+          });
+        }
+      } catch (e) {}
+    }());
+  </script>
 </head>
 <body>
   <a href="#main-content" class="skip-to-content">Skip to content</a>
@@ -73,10 +87,33 @@
 
           <p class="product-desc">A lightweight blend of almond, jojoba, castor and coconut-derived oils designed to soften beard hair and condition the skin beneath. Fast-absorbing and non-greasy; wear it every day without compromise.</p>
 
+          <div class="qty-selector" id="productQty">
+            <button class="qty-btn" type="button" id="qtyDec" aria-label="Decrease quantity" disabled>−</button>
+            <span class="qty-val" id="qtyVal" aria-live="polite" aria-atomic="true" aria-label="Quantity: 1">1</span>
+            <button class="qty-btn" type="button" id="qtyInc" aria-label="Increase quantity">+</button>
+          </div>
+
           <button class="btn btn-primary product-add-bag js-add-bag" type="button" data-product-id="zoor-beard-oil" data-product-name="ZOOR Beard Oil" data-product-volume="30ml" data-product-image="product%20zoor.jpeg">
             Add to Bag
           </button>
-          <p style="font-size: 0.75rem; color: var(--cream-muted); text-align: center; margin-top: -20px; margin-bottom: 32px; letter-spacing: 0.06em;">Free UK delivery on orders over £30</p>
+
+          <div class="trust-badges">
+            <span class="trust-secure">
+              <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              Secure Checkout
+            </span>
+            <span class="trust-divider" aria-hidden="true"></span>
+            <span class="trust-card">VISA</span>
+            <span class="trust-card" aria-label="Mastercard">
+              <svg width="26" height="16" viewBox="0 0 26 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <circle cx="9.5" cy="8" r="7.5" fill="oklch(48% 0.18 27 / 0.5)"/>
+                <circle cx="16.5" cy="8" r="7.5" fill="oklch(68% 0.16 55 / 0.5)"/>
+              </svg>
+            </span>
+            <span class="trust-card">PayPal</span>
+          </div>
+
+          <p style="font-size: 0.75rem; color: var(--cream-muted); text-align: center; margin-top: 0; margin-bottom: 32px; letter-spacing: 0.06em;">Free UK delivery on orders over £30</p>
 
           <div class="product-meta">
 
@@ -189,6 +226,11 @@
     <span class="toast-dot"></span>
     <p>Added to your bag</p>
   </div>
+
+  <!-- SCROLL TO TOP -->
+  <button class="scroll-top-btn" id="scrollTop" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
 
   <script src="js/main.js"></script>
 </body>

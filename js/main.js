@@ -106,63 +106,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ── Contact form validation & submit ───────────────────── */
   const contactForm = document.getElementById('contactForm');
-  if (contactForm) {
-    const showError = (id, msg) => {
-      const field = document.getElementById(id);
-      const err   = document.getElementById(id + '-error');
-      field.setAttribute('aria-invalid', 'true');
-      err.textContent = msg;
-      err.hidden = false;
-    };
+  const formArea    = document.getElementById('formArea');
+  const formSuccess = document.getElementById('formSuccess');
 
-    const clearError = (id) => {
-      const field = document.getElementById(id);
-      const err   = document.getElementById(id + '-error');
-      field.removeAttribute('aria-invalid');
-      err.hidden = true;
-    };
+  if (contactForm && formArea && formSuccess) {
+    const fields = ['name', 'email', 'message'];
+
+    const markInvalid = (id) => document.getElementById(id).setAttribute('aria-invalid', 'true');
+    const clearInvalid = (id) => document.getElementById(id).removeAttribute('aria-invalid');
+
+    fields.forEach(id => {
+      document.getElementById(id).addEventListener('input', () => clearInvalid(id));
+    });
 
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      ['name', 'email', 'message'].forEach(clearError);
+      fields.forEach(clearInvalid);
 
       const nameVal  = document.getElementById('name').value.trim();
       const emailVal = document.getElementById('email').value.trim();
       const msgVal   = document.getElementById('message').value.trim();
       let firstInvalid = null;
 
-      if (!nameVal) {
-        showError('name', 'Please enter your name.');
-        firstInvalid = firstInvalid || document.getElementById('name');
+      if (!nameVal)  { markInvalid('name');    firstInvalid = firstInvalid || document.getElementById('name'); }
+      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        markInvalid('email'); firstInvalid = firstInvalid || document.getElementById('email');
       }
-      if (!emailVal) {
-        showError('email', 'Please enter your email address.');
-        firstInvalid = firstInvalid || document.getElementById('email');
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-        showError('email', 'Please enter a valid email address.');
-        firstInvalid = firstInvalid || document.getElementById('email');
-      }
-      if (!msgVal) {
-        showError('message', 'Please enter your message.');
-        firstInvalid = firstInvalid || document.getElementById('message');
-      }
+      if (!msgVal)   { markInvalid('message'); firstInvalid = firstInvalid || document.getElementById('message'); }
 
-      if (firstInvalid) {
-        firstInvalid.focus();
-        return;
-      }
+      if (firstInvalid) { firstInvalid.focus(); return; }
 
-      const btn = contactForm.querySelector('[type="submit"]');
-      const original = btn.textContent;
-      btn.textContent = 'Message Sent';
-      btn.disabled = true;
-      btn.classList.add('js-submitted');
+      /* show success */
+      formArea.hidden = true;
+      formSuccess.removeAttribute('hidden');
+      requestAnimationFrame(() => requestAnimationFrame(() => formSuccess.classList.add('visible')));
+
       setTimeout(() => {
-        btn.textContent = original;
-        btn.disabled = false;
-        btn.classList.remove('js-submitted');
-        contactForm.reset();
-      }, 3500);
+        formSuccess.classList.remove('visible');
+        setTimeout(() => {
+          formSuccess.setAttribute('hidden', '');
+          formArea.hidden = false;
+          contactForm.reset();
+        }, 450);
+      }, 4000);
     });
   }
 

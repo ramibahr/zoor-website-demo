@@ -934,7 +934,55 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
 
 .form-group input[aria-invalid="true"],
 .form-group textarea[aria-invalid="true"] {
-  border-color: var(--error);
+  border-color: var(--gold);
+}
+
+/* ── Contact form success state ───────────────────────────── */
+.form-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 52px 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+.form-success.visible { opacity: 1; }
+
+.form-success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid var(--success);
+  color: var(--success);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 28px;
+}
+.form-success.visible .form-success-icon { transform: scale(1); }
+
+.form-success-icon svg {
+  width: 38px;
+  height: 38px;
+}
+
+.form-success-title {
+  font-size: 1.6rem;
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.form-success-sub {
+  font-size: 0.85rem;
+  color: var(--cream-muted);
+  letter-spacing: 0.03em;
 }
 
 /* ── LEGAL PAGES ──────────────────────────────────────────── */
@@ -1263,13 +1311,16 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   .hero-title { font-size: clamp(4rem, 18vw, 8rem); letter-spacing: 0.08em; }
   .hero-content { padding: 120px 20px 60px; }
 
-  .product-layout { grid-template-columns: 1fr; gap: 40px; }
+  .product-layout { grid-template-columns: 1fr; gap: 24px; }
   .product-image-main { position: static; aspect-ratio: 4/3; }
+  .shop-breadcrumb-wrapper { padding-top: var(--nav-h) !important; padding-bottom: 4px !important; }
+  .product-page { padding-top: 10px; }
 
   .about-two-col { grid-template-columns: 1fr; }
   .about-image-full { max-height: 340px; }
 
   .contact-grid { grid-template-columns: 1fr; }
+  .contact-grid .contact-info { order: 2; }
 
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; }

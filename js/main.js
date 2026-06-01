@@ -38,6 +38,8 @@ const Cart = (() => {
     const n = totalItems();
     el.textContent = n;
     el.hidden = n === 0;
+    const link = el.closest('.nav-cart');
+    if (link) link.setAttribute('aria-label', n === 0 ? 'View basket' : `View basket (${n} item${n === 1 ? '' : 's'})`);
   };
 
   return { get, add, remove, setQty, totalItems, updateBadge: _badge };
@@ -166,27 +168,36 @@ document.addEventListener('DOMContentLoaded', () => {
   if (contactForm && formArea && formSuccess) {
     const fields = ['name', 'email', 'message'];
 
-    const markInvalid = (id) => document.getElementById(id).setAttribute('aria-invalid', 'true');
-    const clearInvalid = (id) => document.getElementById(id).removeAttribute('aria-invalid');
+    const showErr = (id, msg) => {
+      const field = document.getElementById(id);
+      const err   = document.getElementById(id + '-error');
+      field.setAttribute('aria-invalid', 'true');
+      if (err) { err.textContent = msg; err.hidden = false; }
+    };
+    const clearErr = (id) => {
+      const field = document.getElementById(id);
+      const err   = document.getElementById(id + '-error');
+      field.removeAttribute('aria-invalid');
+      if (err) err.hidden = true;
+    };
 
     fields.forEach(id => {
-      document.getElementById(id).addEventListener('input', () => clearInvalid(id));
+      document.getElementById(id).addEventListener('input', () => clearErr(id));
     });
 
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      fields.forEach(clearInvalid);
+      fields.forEach(clearErr);
 
       const nameVal  = document.getElementById('name').value.trim();
       const emailVal = document.getElementById('email').value.trim();
       const msgVal   = document.getElementById('message').value.trim();
       let firstInvalid = null;
 
-      if (!nameVal)  { markInvalid('name');    firstInvalid = firstInvalid || document.getElementById('name'); }
-      if (!emailVal || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
-        markInvalid('email'); firstInvalid = firstInvalid || document.getElementById('email');
-      }
-      if (!msgVal)   { markInvalid('message'); firstInvalid = firstInvalid || document.getElementById('message'); }
+      if (!nameVal) { showErr('name', 'Please enter your name.'); firstInvalid = firstInvalid || document.getElementById('name'); }
+      if (!emailVal) { showErr('email', 'Please enter your email address.'); firstInvalid = firstInvalid || document.getElementById('email'); }
+      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) { showErr('email', 'Please enter a valid email address.'); firstInvalid = firstInvalid || document.getElementById('email'); }
+      if (!msgVal) { showErr('message', 'Please enter your message.'); firstInvalid = firstInvalid || document.getElementById('message'); }
 
       if (firstInvalid) { firstInvalid.focus(); return; }
 
@@ -212,8 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderCart(container) {
     const items = Cart.get();
-    const tbc = 'Price TBC';
-    const fmt = (p) => p != null ? '£' + p.toFixed(2) : tbc;
+    const fmt = (p) => p != null ? '£' + p.toFixed(2) : 'Price TBC';
+    const say = (msg) => {
+      const el = document.getElementById('cartAnnounce');
+      if (!el) return;
+      el.textContent = '';
+      setTimeout(() => { el.textContent = msg; }, 10);
+    };
 
     if (items.length === 0) {
       container.innerHTML = `
@@ -221,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="cart-empty-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           </div>
-          <h2>Your basket is empty</h2>
+          <h2 tabindex="-1">Your basket is empty</h2>
           <p>Looks like you haven't added anything yet.</p>
           <a href="shop.html" class="btn btn-primary" style="display:inline-block;margin-top:8px;">Shop Now</a>
         </div>`;
@@ -241,9 +257,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <p class="cart-item-price">${fmt(item.price)}</p>
           </div>
           <div class="cart-item-qty">
-            <button class="cart-qty-btn js-qty-dec" data-id="${item.id}" aria-label="Decrease quantity">−</button>
-            <span class="cart-qty-val">${item.quantity}</span>
-            <button class="cart-qty-btn js-qty-inc" data-id="${item.id}" aria-label="Increase quantity">+</button>
+            <button class="cart-qty-btn js-qty-dec" data-id="${item.id}" aria-label="Decrease quantity of ${item.name}">−</button>
+            <span class="cart-qty-val" aria-label="Quantity: ${item.quantity}">${item.quantity}</span>
+            <button class="cart-qty-btn js-qty-inc" data-id="${item.id}" aria-label="Increase quantity of ${item.name}">+</button>
           </div>
           <div class="cart-item-total">${fmt(lineTotal)}</div>
           <button class="cart-remove js-cart-remove" data-id="${item.id}" aria-label="Remove ${item.name} from basket">
@@ -295,24 +311,38 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.addEventListener('click', () => {
         const item = Cart.get().find(i => i.id === btn.dataset.id);
         if (!item) return;
-        if (item.quantity > 1) Cart.setQty(btn.dataset.id, item.quantity - 1);
+        const newQty = item.quantity - 1;
+        if (newQty > 0) Cart.setQty(btn.dataset.id, newQty);
         else Cart.remove(btn.dataset.id);
         renderCart(container);
+        say(newQty > 0 ? `Quantity updated to ${newQty}` : `${item.name} removed from basket`);
       });
     });
 
     container.querySelectorAll('.js-qty-inc').forEach(btn => {
       btn.addEventListener('click', () => {
         const item = Cart.get().find(i => i.id === btn.dataset.id);
-        if (item) Cart.setQty(btn.dataset.id, item.quantity + 1);
-        renderCart(container);
+        if (item) {
+          Cart.setQty(btn.dataset.id, item.quantity + 1);
+          renderCart(container);
+          say(`Quantity updated to ${item.quantity + 1}`);
+        }
       });
     });
 
-    container.querySelectorAll('.js-cart-remove').forEach(btn => {
+    container.querySelectorAll('.js-cart-remove').forEach((btn, idx) => {
       btn.addEventListener('click', () => {
+        const item = Cart.get().find(i => i.id === btn.dataset.id);
         Cart.remove(btn.dataset.id);
         renderCart(container);
+        say(`${item ? item.name : 'Item'} removed from basket`);
+        const nextBtns = container.querySelectorAll('.js-cart-remove');
+        if (nextBtns.length > 0) {
+          nextBtns[Math.min(idx, nextBtns.length - 1)].focus();
+        } else {
+          const heading = container.querySelector('h2[tabindex="-1"]');
+          if (heading) heading.focus();
+        }
       });
     });
   }

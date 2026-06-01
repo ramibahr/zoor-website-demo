@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
 
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
@@ -34,7 +35,7 @@
     </div>
   </nav>
 
-  <main>
+  <main id="main-content">
 
   <!-- PAGE HEADER -->
   <div style="padding-top: calc(var(--nav-h) + 48px); padding-bottom: 0;">
@@ -52,6 +53,7 @@
   <!-- CART CONTENT -->
   <section class="section">
     <div class="container">
+      <p class="sr-only" id="cartAnnounce" aria-live="polite" aria-atomic="true"></p>
       <div id="cartContent">
         <p style="color: var(--cream-muted); text-align: center; padding: 40px 0;">Loading your basket...</p>
       </div>

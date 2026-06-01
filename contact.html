@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
+  <a href="#main-content" class="skip-to-content">Skip to content</a>
 
   <!-- NAVBAR -->
   <nav class="navbar" id="navbar">
@@ -34,7 +35,7 @@
     </div>
   </nav>
 
-  <main>
+  <main id="main-content">
 
   <!-- PAGE HEADER -->
   <div style="padding-top: calc(var(--nav-h) + 60px); padding-bottom: 0;">
@@ -87,7 +88,7 @@
           </div>
 
           <div style="margin-top: 40px; padding: 28px; background: var(--black-card); border: 1px solid var(--border); border-radius: var(--radius);">
-            <h4 style="font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-family: var(--font-sans); font-weight: 700; margin-bottom: 12px;">Returns &amp; Orders</h4>
+            <h3 style="font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); font-family: var(--font-sans); font-weight: 700; margin-bottom: 12px;">Returns &amp; Orders</h3>
             <p style="font-size: 0.88rem; color: var(--cream-muted);">For returns or order-related queries, please also see our <a href="returns-policy.html" style="color: var(--gold);">Returns Policy</a>.</p>
           </div>
         </div>
@@ -99,15 +100,18 @@
             <form id="contactForm" novalidate>
               <div class="form-group">
                 <label for="name">Your Name</label>
-                <input type="text" id="name" name="name" placeholder="Full name" required />
+                <input type="text" id="name" name="name" placeholder="Full name" required aria-describedby="name-error" />
+                <span class="form-error" id="name-error" role="alert" hidden></span>
               </div>
               <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" required />
+                <input type="email" id="email" name="email" placeholder="you@example.com" required aria-describedby="email-error" />
+                <span class="form-error" id="email-error" role="alert" hidden></span>
               </div>
               <div class="form-group">
                 <label for="message">Message</label>
-                <textarea id="message" name="message" placeholder="How can we help?" required></textarea>
+                <textarea id="message" name="message" placeholder="How can we help?" required aria-describedby="message-error"></textarea>
+                <span class="form-error" id="message-error" role="alert" hidden></span>
               </div>
               <button type="submit" class="btn btn-primary form-submit">Send Message</button>
               <p style="font-size: 0.75rem; color: var(--cream-muted); margin-top: 14px; text-align: center; line-height: 1.6;">By submitting this form you agree to our <a href="privacy-policy.html" style="color: var(--gold);">Privacy Policy</a>.</p>

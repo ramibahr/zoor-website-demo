@@ -421,16 +421,53 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   box-shadow: 0 8px 30px var(--gold-a35);
 }
 
-.btn-confirmed,
+.btn-confirmed {
+  background: var(--gold) !important;
+  border-color: var(--gold) !important;
+  color: var(--black) !important;
+  box-shadow: none !important;
+  pointer-events: none;
+  transition: none;
+  animation: btn-confirm-bounce 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
 .btn-confirmed:hover {
   background: var(--gold) !important;
   border-color: var(--gold) !important;
   color: var(--black) !important;
-  transform: none !important;
   box-shadow: none !important;
-  pointer-events: none;
-  opacity: 0.82;
-  transition: opacity 0.2s ease;
+  transform: none !important;
+}
+
+.btn-confirm-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-confirm-check {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  display: block;
+}
+
+.btn-confirm-check polyline {
+  stroke-dasharray: 22;
+  stroke-dashoffset: 22;
+  animation: draw-check 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+@keyframes draw-check {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes btn-confirm-bounce {
+  0%   { transform: scale(1);    filter: brightness(1); }
+  18%  { transform: scale(1.08); filter: brightness(1.35); }
+  40%  { transform: scale(0.96); filter: brightness(1.1); }
+  60%  { transform: scale(1.03); filter: brightness(1.05); }
+  100% { transform: scale(1);    filter: brightness(1); }
 }
 
 .btn-outline {
@@ -1499,6 +1536,54 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
 @keyframes hero-enter-title {
   from { opacity: 0; transform: translateY(56px); }
   to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── ADD TO BAG ANIMATIONS ────────────────────────────────── */
+.cart-fly {
+  position: fixed;
+  width: 22px;
+  height: 22px;
+  color: var(--gold);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 9999;
+}
+.cart-fly svg { width: 100%; height: 100%; }
+
+.cart-fly-active {
+  animation: fly-to-badge 0.65s cubic-bezier(0.4, 0, 0.4, 1) forwards;
+}
+
+@keyframes fly-to-badge {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: translate(
+      calc(-50% + var(--dx) * 0.5),
+      calc(-50% + var(--dy) * 0.3 - 18px)
+    ) scale(0.8);
+    opacity: 1;
+  }
+  85% { opacity: 0.7; }
+  100% {
+    transform: translate(
+      calc(-50% + var(--dx)),
+      calc(-50% + var(--dy))
+    ) scale(0.15);
+    opacity: 0;
+  }
+}
+
+.badge-pop { animation: badge-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+@keyframes badge-pop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.7); }
+  55%  { transform: scale(0.85); }
+  75%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
 /* ── SCROLL ANIMATIONS ────────────────────────────────────── */

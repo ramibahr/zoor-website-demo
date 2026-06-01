@@ -120,15 +120,50 @@ document.addEventListener('DOMContentLoaded', () => {
         price:  btn.dataset.productPrice ? parseFloat(btn.dataset.productPrice) : null
       });
 
-      const original = btn.textContent.trim();
-      btn.textContent = '✓  Added!';
+      const originalHTML = btn.innerHTML;
+      btn.innerHTML = `<span class="btn-confirm-inner"><svg class="btn-confirm-check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="3,10 8,15 17,5"/></svg>Added!</span>`;
       btn.classList.add('btn-confirmed');
+
+      flyCartToBadge(btn);
+
       setTimeout(() => {
-        btn.textContent = original;
+        btn.innerHTML = originalHTML;
         btn.classList.remove('btn-confirmed');
       }, 2000);
     });
   });
+
+  function flyCartToBadge(sourceBtn) {
+    const badgeEl = document.getElementById('cartBadge');
+    if (!badgeEl) return;
+
+    const btnRect    = sourceBtn.getBoundingClientRect();
+    const badgeRect  = badgeEl.getBoundingClientRect();
+    const startX     = btnRect.left + btnRect.width / 2;
+    const startY     = btnRect.top  + btnRect.height / 2;
+    const dx         = (badgeRect.left + badgeRect.width  / 2) - startX;
+    const dy         = (badgeRect.top  + badgeRect.height / 2) - startY;
+
+    const fly = document.createElement('div');
+    fly.className = 'cart-fly';
+    fly.setAttribute('aria-hidden', 'true');
+    fly.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`;
+    fly.style.left = startX + 'px';
+    fly.style.top  = startY + 'px';
+    fly.style.setProperty('--dx', dx + 'px');
+    fly.style.setProperty('--dy', dy + 'px');
+    document.body.appendChild(fly);
+
+    requestAnimationFrame(() => fly.classList.add('cart-fly-active'));
+
+    fly.addEventListener('animationend', () => {
+      fly.remove();
+      badgeEl.classList.remove('badge-pop');
+      void badgeEl.offsetWidth;
+      badgeEl.classList.add('badge-pop');
+      setTimeout(() => badgeEl.classList.remove('badge-pop'), 600);
+    }, { once: true });
+  }
 
   /* ── Cookie consent ──────────────────────────────────────── */
   const banner = document.getElementById('cookieBanner');

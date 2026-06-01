@@ -104,11 +104,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ── Contact form placeholder submit ────────────────────── */
+  /* ── Contact form validation & submit ───────────────────── */
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
+    const showError = (id, msg) => {
+      const field = document.getElementById(id);
+      const err   = document.getElementById(id + '-error');
+      field.setAttribute('aria-invalid', 'true');
+      err.textContent = msg;
+      err.hidden = false;
+    };
+
+    const clearError = (id) => {
+      const field = document.getElementById(id);
+      const err   = document.getElementById(id + '-error');
+      field.removeAttribute('aria-invalid');
+      err.hidden = true;
+    };
+
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      ['name', 'email', 'message'].forEach(clearError);
+
+      const nameVal  = document.getElementById('name').value.trim();
+      const emailVal = document.getElementById('email').value.trim();
+      const msgVal   = document.getElementById('message').value.trim();
+      let firstInvalid = null;
+
+      if (!nameVal) {
+        showError('name', 'Please enter your name.');
+        firstInvalid = firstInvalid || document.getElementById('name');
+      }
+      if (!emailVal) {
+        showError('email', 'Please enter your email address.');
+        firstInvalid = firstInvalid || document.getElementById('email');
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+        showError('email', 'Please enter a valid email address.');
+        firstInvalid = firstInvalid || document.getElementById('email');
+      }
+      if (!msgVal) {
+        showError('message', 'Please enter your message.');
+        firstInvalid = firstInvalid || document.getElementById('message');
+      }
+
+      if (firstInvalid) {
+        firstInvalid.focus();
+        return;
+      }
+
       const btn = contactForm.querySelector('[type="submit"]');
       const original = btn.textContent;
       btn.textContent = 'Message Sent';

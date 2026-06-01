@@ -149,13 +149,17 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
 .nav-logo {
   display: flex;
   align-items: center;
+  flex-shrink: 0;
   transition: opacity 0.2s;
 }
 
 .nav-logo img {
-  height: 38px;
+  height: 40px;
+  max-height: 40px;
   width: auto;
+  max-width: none;
   display: block;
+  object-fit: contain;
 }
 
 .nav-logo:hover { opacity: 0.85; }

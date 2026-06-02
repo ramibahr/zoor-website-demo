@@ -15,8 +15,9 @@
   --gold:        oklch(70% 0.13 85);
   --gold-light:  oklch(73% 0.14 84);
   --gold-dim:    oklch(70% 0.13 85 / 0.15);
-  --cream:       oklch(100% 0 0);
-  --cream-muted: oklch(93% 0.008 265);
+  --cream:            oklch(99% 0.006 85);
+  --cream-muted:      oklch(93% 0.008 265);
+  --muted-disabled:   oklch(60% 0.03 265);
   --cream-dim:   oklch(93% 0.008 265 / 0.10);
   --border:      oklch(70% 0.13 85 / 0.25);
   --font-display:'Big Shoulders Display', Impact, sans-serif;
@@ -54,7 +55,8 @@
   --error:       oklch(60% 0.15 28);
 }
 
-html { scroll-behavior: smooth; font-size: 16px; }
+html { font-size: 16px; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
 body {
   background-color: var(--black);
@@ -246,8 +248,8 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   color: var(--cream);
   transition: color 0.2s;
 }
@@ -518,6 +520,17 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
 .form-group input:focus-visible,
 .form-group textarea:focus-visible {
   outline: none;
+}
+
+/* ── EYEBROW ──────────────────────────────────────────────── */
+.eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  font-family: var(--font-sans);
+  display: block;
 }
 
 /* ── BREADCRUMB ───────────────────────────────────────────── */
@@ -845,8 +858,8 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   line-height: 1;
 }
 
-.qty-btn:hover:not(:disabled) { background: oklch(100% 0 0 / 0.07); color: var(--gold-light); }
-.qty-btn:disabled { color: oklch(60% 0.03 265); cursor: default; }
+.qty-btn:hover:not(:disabled) { background: var(--cream-a07); color: var(--gold-light); }
+.qty-btn:disabled { color: var(--muted-disabled); cursor: default; }
 
 .qty-val {
   font-family: var(--font-sans);
@@ -2011,4 +2024,20 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
     transition-duration: 0.01ms !important;
     transition-delay: 0s !important;
   }
+
+  /* Show scroll-animated content immediately */
+  .fade-up {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Freeze Ken Burns */
+  .hero-bg,
+  .hero.loaded .hero-bg {
+    transform: none;
+  }
+
+  /* Snap form-success states */
+  .form-success { opacity: 1; }
+  .form-success-icon { transform: scale(1); }
 }

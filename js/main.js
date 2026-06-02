@@ -61,12 +61,23 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const scrollTopBtn = document.getElementById('scrollTop');
+  const floatingBtn  = document.querySelector('.floating-shop-btn');
+  const heroEl       = document.querySelector('.hero');
+
+  const updateFloating = () => {
+    if (!floatingBtn) return;
+    const past = heroEl ? heroEl.getBoundingClientRect().bottom < 0 : window.scrollY > 300;
+    floatingBtn.classList.toggle('hero-gone', past);
+  };
 
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
     if (navMenu && navMenu.classList.contains('open')) closeNav();
     if (scrollTopBtn) scrollTopBtn.classList.toggle('visible', window.scrollY > 300);
+    updateFloating();
   }, { passive: true });
+
+  updateFloating();
 
   if (scrollTopBtn) {
     scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
@@ -157,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btn.classList.add('btn-confirmed');
 
       flyCartToBadge(btn);
+      showToast();
 
       const qtyResetEl = document.getElementById('qtyVal');
       const qtyDecEl   = document.getElementById('qtyDec');
@@ -169,6 +181,14 @@ document.addEventListener('DOMContentLoaded', () => {
       }, 2000);
     });
   });
+
+  function showToast() {
+    const toastEl = document.getElementById('toast');
+    if (!toastEl) return;
+    toastEl.classList.add('show');
+    clearTimeout(toastEl._timer);
+    toastEl._timer = setTimeout(() => toastEl.classList.remove('show'), 3200);
+  }
 
   function flyCartToBadge(sourceBtn) {
     const badgeEl = document.getElementById('cartBadge');

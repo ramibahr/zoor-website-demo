@@ -1,7 +1,7 @@
 /* ============================================================
    ZOOR – PREMIUM BEARD OIL
    Colour: oklch(8% 0.022 265) black | oklch(70% 0.13 85) gold | oklch(99% 0.006 85) cream
-   Fonts : Big Shoulders Display (headings) | Montserrat (body) | Playfair Display (serif accents)
+   Fonts : Big Shoulders Display (headings) | Instrument Sans (body) | Playfair Display (serif accents)
    ============================================================ */
 
 /* ── RESET & ROOT ─────────────────────────────────────────── */
@@ -22,7 +22,7 @@
   --border:      oklch(70% 0.13 85 / 0.25);
   --font-display:'Big Shoulders Display', Impact, sans-serif;
   --font-serif:  'Playfair Display', Georgia, serif;
-  --font-sans:   'Montserrat', 'Helvetica Neue', sans-serif;
+  --font-sans:   'Instrument Sans', 'Helvetica Neue', sans-serif;
   --nav-h:       80px;
   --ease:        cubic-bezier(0.16, 1, 0.3, 1);
   --ease-fast:   cubic-bezier(0.25, 1, 0.5, 1);
@@ -320,17 +320,6 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   z-index: 2;
   padding: 120px 28px 80px;
   max-width: 820px;
-}
-
-.hero-eyebrow {
-  font-size: 0.72rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 20px;
-  font-family: var(--font-sans);
-  animation: hero-enter 0.65s var(--ease) 0.1s both;
 }
 
 .hero-title {
@@ -1575,6 +1564,7 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
 .toast.show {
   transform: translateY(0);
   opacity: 1;
+  pointer-events: auto;
 }
 
 .toast-dot {
@@ -1585,11 +1575,22 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   flex-shrink: 0;
 }
 
+.toast-body { display: flex; flex-direction: column; gap: 3px; }
+
 .toast p {
   font-size: 0.82rem;
   color: var(--cream);
   font-weight: 500;
 }
+
+.toast-link {
+  font-size: 0.72rem;
+  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  transition: opacity 0.15s;
+}
+.toast-link:hover { opacity: 0.75; }
 
 /* ── KEYFRAMES ────────────────────────────────────────────── */
 @keyframes hero-enter {
@@ -1808,7 +1809,16 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
     box-shadow: 0 4px 20px var(--gold-a35), 0 2px 8px var(--black-a35);
     z-index: 800;
     white-space: nowrap;
-    transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), box-shadow 0.2s var(--ease);
+  }
+
+  .floating-shop-btn.hero-gone {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
   }
 
   .floating-shop-btn:active {

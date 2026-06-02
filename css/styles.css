@@ -1,7 +1,7 @@
 /* ============================================================
    ZOOR – PREMIUM BEARD OIL
-   Colour: #0a0e1a (navy) | #C49A2B (gold) | #FFFFFF / #E8EAF0 (white)
-   Fonts : Big Shoulders Display (headings) | Montserrat (body)
+   Colour: oklch(8% 0.022 265) black | oklch(70% 0.13 85) gold | oklch(99% 0.006 85) cream
+   Fonts : Big Shoulders Display (headings) | Montserrat (body) | Playfair Display (serif accents)
    ============================================================ */
 
 /* ── RESET & ROOT ─────────────────────────────────────────── */
@@ -52,7 +52,10 @@
   --gold-a35:    oklch(70% 0.13 85 / 0.35);
   --black-footer: oklch(5.5% 0.02 265);
   --success:      oklch(45% 0.12 148);
-  --error:       oklch(60% 0.15 28);
+  --error:        oklch(60% 0.15 28);
+  --muted-ui:     oklch(65% 0.005 265);
+  --cream-a04:    oklch(99% 0.006 85 / 0.04);
+  --cream-a09:    oklch(99% 0.006 85 / 0.09);
 }
 
 html { font-size: 16px; }
@@ -1088,7 +1091,7 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
 
 .form-group input[aria-invalid="true"],
 .form-group textarea[aria-invalid="true"] {
-  border-color: var(--gold);
+  border-color: var(--error);
 }
 
 /* ── Contact form success state ───────────────────────────── */
@@ -1924,7 +1927,7 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: oklch(65% 0.005 265);
+  color: var(--muted-ui);
 }
 
 .trust-divider {
@@ -1935,15 +1938,15 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
 }
 
 .trust-card {
-  background: oklch(100% 0 0 / 0.04);
-  border: 1px solid oklch(100% 0 0 / 0.09);
+  background: var(--cream-a04);
+  border: 1px solid var(--cream-a09);
   border-radius: 3px;
   padding: 3px 8px;
   font-size: 0.6rem;
   font-weight: 800;
   letter-spacing: 0.06em;
   font-family: var(--font-sans);
-  color: oklch(65% 0.005 265);
+  color: var(--muted-ui);
   display: inline-flex;
   align-items: center;
   height: 22px;

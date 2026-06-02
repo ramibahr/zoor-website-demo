@@ -160,6 +160,7 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  background: transparent;
   transition: opacity 0.2s;
 }
 
@@ -170,6 +171,7 @@ p { font-size: 1rem; color: var(--cream-muted); line-height: 1.8; }
   max-width: none;
   display: block;
   object-fit: contain;
+  background: transparent;
 }
 
 .nav-logo:hover { opacity: 0.85; }
